@@ -1,6 +1,9 @@
 package com.mycompany.projetofinalpoo;
 
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.NullPointerException;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -24,6 +27,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
+        try {
+            String s = GerenciadorDeArquivos.getInstance().lerDoArquivo();
+        } catch(IOException e) {
+           File file = new File(Controlador.getInstance().getUser()+".txt");
+        }
     }
     
     public JButton getButtonEnviarMsg() {
@@ -54,9 +62,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
             return null;
         }
     }
+    public void UpdateTela() {
+        ListaMensagens.setModel(new javax.swing.AbstractListModel<String>() {
+        String[] strings =  Controlador.getInstance().msgVectorToString();
+        @Override
+        public int getSize() { return strings.length; }
+        @Override
+        public String getElementAt(int i) { return strings[i]; }
+        });
+    }
     
-    
-    
+    public void UpdateTelaMsgsEnviadas() {
+        ListaMensagens.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = Controlador.getInstance().msgSentToString();
+            @Override
+            public int getSize() { return strings.length; }
+            @Override
+            public String getElementAt(int i) { return strings[i]; }
+        });
+    }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,7 +113,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Caixas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Caixa de entrada", "Enviadas" }));
         Caixas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Foi.");
+                if(Caixas.getSelectedIndex() == 0) {
+                    UpdateTela();
+                } else {
+                    UpdateTelaMsgsEnviadas();
+                }
             }
         });
 
@@ -98,15 +127,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        ListaMensagens.setToolTipText("");
         ListaMensagens.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                try {
-                    Message m = Controlador.getInstance().getMensagens()[ListaMensagens.getSelectedIndex()];
-                    m.setTela(new TelaMensagem());
-                } catch(NullPointerException e1) {
-                    return;
+                if(Caixas.getSelectedIndex() == 0) {
+                    try {
+                        if(!e.getValueIsAdjusting() && ListaMensagens.getSelectedIndex() != -1) {
+                            Message m = Controlador.getInstance().getMensagens()[ListaMensagens.getSelectedIndex()];
+                            m.setTela(new TelaMensagem());
+                            m.getTela().getAssunto().setText("Assunto: "+m.getAssunto());
+                            m.getTela().getCorpoMsg().setText("Mensagem: "+ m.getMensagem());
+                            m.getTela().getDe().setText("De: "+m.getDe());
+                            m.getTela().getPara().setText("Para: "+m.getPara());
+                        }
+                    } catch(NullPointerException e1) {
+                        return;
+                    }
+                } else {
+                    try {
+                        if(!e.getValueIsAdjusting() && ListaMensagens.getSelectedIndex() != -1) {
+                            Message m = Controlador.getInstance().getMensagensEnviadas()[ListaMensagens.getSelectedIndex()];
+                            m.setTela(new TelaMensagem());
+                            m.getTela().getAssunto().setText("Assunto: "+m.getAssunto());
+                            m.getTela().getCorpoMsg().setText("Mensagem: "+ m.getMensagem());
+                            m.getTela().getDe().setText("De: "+m.getDe());
+                            m.getTela().getPara().setText("Para: "+m.getPara());
+                        }
+                    }catch (NullPointerException e2) {
+                        return;
+                    }
                 }
-
             }
         });
         jScrollPane2.setViewportView(ListaMensagens);
@@ -244,6 +294,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         String assunto = getInputAssunto();
         String mensagem = getInputMensagem();
         ConversadorServidor.getInstance().enviarMensagem(para, assunto, mensagem);
+        try {
+            GerenciadorDeArquivos.getInstance().escreverNoArquivo(Controlador.getInstance().getUser(),para,assunto,mensagem);
+            String s = GerenciadorDeArquivos.getInstance().lerDoArquivo();
+        } catch (IOException e) {
+        }
+        
     }//GEN-LAST:event_BotaoEnviarActionPerformed
 
     /**

@@ -2,6 +2,7 @@ package com.mycompany.projetofinalpoo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.*;
 
 /*
@@ -28,6 +29,9 @@ public class TelaLogin extends javax.swing.JFrame {
     }
     
     public String getLogin() {
+        if("".equals(this.inputLogin.getText())) {
+            return null;
+        }
         return this.inputLogin.getText();
     }
     
@@ -66,11 +70,17 @@ public class TelaLogin extends javax.swing.JFrame {
         buttonLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String s = getLogin();
-                String resposta = ConversadorServidor.getInstance().login(s);
-                TelaPrincipal telaPrincipal = new TelaPrincipal();
-                telaPrincipal.setVisible(true);
-                setVisible(false);
-                Controlador.getInstance().start();
+                if(s != null) {
+                    String resposta = ConversadorServidor.getInstance().login(s);
+                    TelaPrincipal telaPrincipal = new TelaPrincipal();
+                    Controlador.getInstance().setTelaPrincipal(telaPrincipal);
+                    telaPrincipal.setVisible(true);
+                    setVisible(false);
+                    Controlador.getInstance().start();
+
+                } else {
+                    return;
+                }
             }
         }
     );
@@ -86,35 +96,38 @@ public class TelaLogin extends javax.swing.JFrame {
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(inputLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jLabel3))
-                    .addGap(152, 152, 152)))
-            .addContainerGap(148, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(56, 56, 56)
+                    .addComponent(jLabel1))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(152, 152, 152)
+                    .addComponent(jLabel3)))
+            .addGap(0, 60, Short.MAX_VALUE))
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jLabel2)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(inputLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGap(166, 166, 166))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addGap(22, 22, 22)
+            .addContainerGap()
             .addComponent(jLabel1)
-            .addGap(38, 38, 38)
+            .addGap(40, 40, 40)
             .addComponent(jLabel3)
-            .addGap(43, 43, 43)
+            .addGap(52, 52, 52)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(inputLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel2))
-            .addGap(18, 18, 18)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
             .addComponent(buttonLogin)
-            .addContainerGap())
+            .addGap(29, 29, 29))
     );
 
     pack();

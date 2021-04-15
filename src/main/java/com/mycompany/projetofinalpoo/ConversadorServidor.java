@@ -33,9 +33,7 @@ public class ConversadorServidor {
     
     
     private void abrirSocket() throws IOException {
-        System.out.println("Criando o socket...");
         socket = new Socket("catolicasc-bigdata-valmor123.mybluemix.net", 80);
-        System.out.println("Conectado... " + socket.isConnected());
     }
     private ConversadorServidor() {
         
@@ -45,16 +43,17 @@ public class ConversadorServidor {
         PrintStream printer = new PrintStream(socket.getOutputStream());
         mensagem = mensagem.replace(" ", "%20");
         printer.println("GET /" + what + "?json="+mensagem+ " HTTP/1.1");
-        System.out.println("GET /" + what + "?json="+mensagem+" HTTP/1.1");
         printer.println("Host: catolicasc-bigdata-valmor123.mybluemix.net");
         printer.println("Accept: */*");
         printer.println("Connection: Close");
         printer.println();
-        System.out.println("Passou no escrever");
     }
     
     private String lerRespostaDoServidor() throws IOException {
         String resposta = "";
+        if(socket.isClosed()) {
+            abrirSocket();
+        }
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String linha = reader.readLine();
         while (linha != null) {
@@ -62,25 +61,27 @@ public class ConversadorServidor {
             linha = reader.readLine();
         }
         reader.close();
-        System.out.println("termino da leitura");
         return resposta;
     }
     
 
     public String login(String user) {
-        String mensagem = "{ \"login\": { \"user-id\": \"" + user +"\" } }";
-        String resposta = null;
-        System.out.println(mensagem);
-        try {
-            abrirSocket();
-            escreverParaOServidor("login", mensagem);
-            resposta = lerRespostaDoServidor();
-            socket.close();
-            Controlador.getInstance().setUser(user);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(user != null) {
+            String mensagem = "{ \"login\": { \"user-id\": \"" + user +"\" } }";
+            String resposta = null;
+            try {
+                abrirSocket();
+                escreverParaOServidor("login", mensagem);
+                resposta = lerRespostaDoServidor();
+                socket.close();
+                Controlador.getInstance().setUser(user);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return resposta;
+        } else {
+            return null;
         }
-        return resposta;
     }
     
     public String enviarMensagem(String destinatario, String assunto, String texto) {
@@ -166,7 +167,6 @@ public class ConversadorServidor {
         String[] vectorString = new String[mensagens.length];
         for(int i = 0; i < mensagens.length; i++) {
             vectorString[i] = mensagens[i].msgToString();
-            System.out.println(vectorString[i]);
         }
         return vectorString;
         

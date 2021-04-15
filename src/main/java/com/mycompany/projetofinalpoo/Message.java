@@ -17,6 +17,7 @@ public class Message {
     private String Para;
     private String Assunto;
     private String Mensagem;
+    private TelaMensagem Tela;
 
     public TelaMensagem getTela() {
         return Tela;
@@ -25,7 +26,6 @@ public class Message {
     public void setTela(TelaMensagem Tela) {
         this.Tela = Tela;
     }
-    private TelaMensagem Tela;
     
     Message(String de, String para, String assunto, String mensagem) {
         De = de;

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
-  </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
@@ -23,51 +20,51 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="MsgCorpo" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="MsgAssunto" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="MsgPara" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="MsgDe" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="316" max="32767" attributes="0"/>
+              <EmptySpace pref="341" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+              <Component id="MsgDe" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+              <Component id="MsgPara" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <Component id="MsgAssunto" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+              <Component id="MsgCorpo" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="85" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="MsgDe">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="MsgPara">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel2"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
+    <Component class="javax.swing.JLabel" name="MsgAssunto">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel3"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
+    <Component class="javax.swing.JLabel" name="MsgCorpo">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel4"/>
       </Properties>
